@@ -15,21 +15,24 @@ const monsieur = Monsieur_La_Doulaise({
 const serviceCards = [
   {
     id: 1,
-    title: "CREATIVE DIRECTION",
+    titleA: "Creative",
+    titleB: "Direction",
     description: "Get recognized with a unique brand identity",
     icon: "/images/creative_direction.png",
     color: "from-pink-500 to-purple-500"
   },
   {
     id: 2,
-    title: "EVENT DESIGN",
+    titleA: "Event",
+    titleB: "Design",
     description: "Create marketing materials for your events that make people stop and take notice.",
     icon: "/images/event_design.png",
     color: "from-blue-500 to-cyan-500"
   },
   {
     id: 3,
-    title: "ALBUM ART",
+    titleA: "Album",
+    titleB: "Art",
     description: "Create visuals as powerful as your music.",
     icon: "/images/album_art.jpg",
     color: "from-orange-500 to-red-500"
@@ -148,29 +151,40 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             {/* Service Cards */}
             {serviceCards.map((service) => (
-              <motion.div
+              <div>
+                <motion.div
                 key={`service-${service.id}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: service.id * 0.2 }}
-                className="relative rounded-4xl p-6 aspect-square overflow-hidden"
+                className="relative rounded-[150px] aspect-3/4 border-[1px] border-zinc-700 overflow-hidden mb-16"
+                style={{ backgroundImage: `url(${service.icon})`, backgroundSize: `cover`, backgroundRepeat: `no-repeat`, backgroundPosition: `center` }}
                 whileHover={{ scale: 1.05 }}
-              >
-                <div className={`absolute inset-0 bg-gradient-to-r ${service.color} opacity-10`}/>
-                <div className="relative z-10">
-                  <img src="{service.icon}" alt="{service.title}" />
+              />
+
+              <div className="relative z-10">
+                <div 
+                  className="flex flex-row gap-1 justify-center items-center mb-4"
+                >
                   <h3
-                    className={`${dmSans.className} text-2xl font-medium mb-2`}
-                  >
-                    {service.title}
-                  </h3>
-                  <p
-                    className="text-gray-300"
-                  >
-                    {service.description}
-                  </p>
+                      className={`${dmSans.className} text-2xl font-medium mb-2`}
+                    >
+                      {service.titleA}
+                    </h3>
+                    <h3
+                      className={`${monsieur.className} text-2xl font-medium mb-2`}
+                    >
+                      {service.titleB}
+                    </h3>
                 </div>
-              </motion.div>
+                  
+                <p
+                  className="text-gray-300"
+                >
+                  {service.description}
+                </p>
+            </div>
+            </div>
             ))}
           </div>
         </div>
