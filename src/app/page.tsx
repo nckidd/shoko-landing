@@ -38,7 +38,32 @@ const serviceCards = [
     color: "from-orange-500 to-red-500"
   }
 ];
-
+const galleryCards = [
+  {
+    id: 4,
+    icon: "/images/gallery1.png",
+  },
+  {
+    id: 5,
+    icon: "/images/gallery2.png",
+  },
+  {
+    id: 6,
+    icon: "/images/gallery3.png",
+  },
+  {
+    id: 7,
+    icon: "/images/gallery4.png",
+  },
+  {
+    id: 8,
+    icon: "/images/gallery5.png",
+  },
+  {
+    id: 9,
+    icon: "/images/gallery6.png",
+  }
+]
 export default function Home() {
   return (
     <div
@@ -200,32 +225,70 @@ export default function Home() {
         >
           <div>
             {/* Insert CTA tagline here */}
+            <h4
+              className={`${dmSans.className} text-xl font-medium mb-2`}
+                    >
+                      MAKE A MOVE
+            </h4>
+            {/* Insert actual CTA here */}
+            <div 
+              className="flex flex-row items-center justify-center"
+            >
+            <h2 className=
+                  {`${dmSans.className}
+                  text-6xl
+                  mb-0
+                  font-normal
+                  tracking-tighter
+                  bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent`
+                  }
+                >
+                  LET'S CREATE
+              </h2>
+              <h2 className=
+                  {`${monsieur.className}
+                  relative
+                  text-8xl
+                  mb-3
+                  -ml-10
+                  bg-gradient-to-r from-indigo-200 to-indigo-400 bg-clip-text text-transparent`
+                  }
+              >
+                  Something
+              </h2>
+              <h2 className=
+                  {`${dmSans.className}
+                  text-6xl
+                  mb-0
+                  font-normal
+                  tracking-tighter
+                  bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent`
+                  }
+                >
+                  GREAT
+              </h2>
+            </div>
+            {/* Insert CTA button here */}
           </div>
-          <div>
-            {/* Insert CTA text here */}
-          </div>
+
         </motion.div>
       </section>
 
       {/* Gallery Grid */}
-      <section>
-        <div>
-          <div>
-            {/* Photo Cards */}
-            {[1,2,3].map((item) => (
+      <section className="py-20">
+        <div className="container mx-auto px-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            {/* Gallery Cards */}
+            {galleryCards.map((gallery) => (
               <motion.div
-                key={`gallery-${item}`}
-                className="relative rounded-full aspect-square"
+                key={`gallery-${gallery.id}`}
+                className="relative rounded-[150px] aspect-3/4 border-[1px] border-zinc-700 overflow-hidden mb-16"
                 whileHover={{ scale: 1.05 }}
                 initial={{ opacity: 0, y: 20  }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{duration: 0.5, delay: item * 0.2}}
-              >
-                <div/>
-                <div>
-                  {/* Add images here */}
-                </div>
-              </motion.div>
+                transition={{duration: 0.5, delay: gallery.id * 0.2}}
+                style={{ backgroundImage: `url(${gallery.icon})`, backgroundSize: `cover`, backgroundRepeat: `no-repeat`, backgroundPosition: `center` }}
+              />
             ))}
           </div>
         </div>
@@ -239,16 +302,56 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center"
+          className="text-center mx-50"
         >
-          <div>
+          <div 
+            className="flex flex-row items-center"
+          >
             <motion.img
               src="/images/nicole.jpeg"
               alt="Photo of Nicole"
-              className="w-24 h-auto mx-auto mb-8"
+              className="w-auto h-80 mx-auto mb-8 rounded-[200px]"
               animate={{ y: [0,-10,0] }}
               transition={{duration: 2, repeat: Infinity}}
             />
+            <div 
+              className="flex flex-col items-left justify-left mx-10 mb-8"
+            >
+              {/* Header */}
+              <div 
+                className="flex items-center gap-8"
+              >
+                <h4 className=
+                    {`${dmSans.className}
+                    text-1xl
+                    mb-0`}
+                >
+                  WHO's
+                </h4>
+                <h2 className=
+                    {`${monsieur.className}
+                    relative
+                    text-8xl
+                    mb-3
+                    -ml-10
+                    bg-gradient-to-r from-indigo-200 to-indigo-400 bg-clip-text text-transparent`
+                    }
+                >
+                    Nicole?
+                </h2>
+              </div>
+              {/* Blurb */}
+              <p className="text-left">
+                 I have deep-rooted passion for storytelling and captivating narratives with graphic design. My journey in the Bay Area has shaped my artistic vision, allowing me to connect with diverse stories and bring them to life.    
+              </p>
+              {/* Button */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                className="w-40 bg-gradient-to-r from-indigo-400 to-indigo-200 text-white py-2 px-4 rounded-full mt-4"
+              >
+                Learn More
+              </motion.button>
+            </div>
           </div>
         </motion.div>
       </section>
