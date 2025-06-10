@@ -176,9 +176,8 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             {/* Service Cards */}
             {serviceCards.map((service) => (
-              <div>
+              <div key={`service-${service.id}`}>
                 <motion.div
-                key={`service-${service.id}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: service.id * 0.2 }}
