@@ -26,30 +26,40 @@ const Orb: React.FC<OrbProps> = ({
     style = {},
 }) => {
     const orbRef = useRef<HTMLDivElement>(null);
+    const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+    const sceneRef = useRef<THREE.Scene | null>(null);
+    const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+    const controlsRef = useRef<OrbitControls | null>(null);
+
     useEffect(() => {
         if (!orbRef.current) return;
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(
+        sceneRef.current = new THREE.Scene();
+        const scene = sceneRef.current;
+        cameraRef.current = new THREE.PerspectiveCamera(
             75,
             window.innerWidth / window.innerHeight,
             0.1,
             1000
         );
-        const renderer = new THREE.WebGLRenderer({
+        rendererRef.current = new THREE.WebGLRenderer({
             antialias: true,
             alpha: true,
             preserveDrawingBuffer: true,
             powerPreference: "high-performance",
         });
 
+        const renderer = rendererRef.current;
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(parseInt(backgroundColor,16));
+        renderer.setClearColor(backgroundColor);
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-        orbRef.current.appendChild(renderer.domElement);
+        if (orbRef.current) {
+            orbRef.current.appendChild(renderer.domElement);
+        }
 
-        const controls = new OrbitControls(camera, renderer.domElement);
+        controlsRef.current = new OrbitControls(cameraRef.current, renderer.domElement);
+        const controls = controlsRef.current;
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
         controls.rotateSpeed = 1.2;
@@ -86,7 +96,6 @@ const Orb: React.FC<OrbProps> = ({
             'wind and sound.png',
             'creative_direction.png',
             'event_design.png',
-            'nicole.jpeg'
         ];
 
         const getRandomImagePath = () => {
@@ -162,20 +171,24 @@ const Orb: React.FC<OrbProps> = ({
             }
         };
 
-        camera.position.z = 10;
+        cameraRef.current.position.z = 10;
 
         const animate = () => {
             requestAnimationFrame(animate);
-            controls.update();
-            renderer.render(scene, camera);
+            if (controls && renderer && scene && cameraRef.current) {
+                controls.update();
+                renderer.render(scene, cameraRef.current);
+            }
         };
 
         window.addEventListener("resize", () => {
             const width = window.innerWidth;
             const height = window.innerHeight;
-            renderer.setSize(width, height);
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
+            if (rendererRef.current && cameraRef.current) {
+                rendererRef.current.setSize(width, height);
+                cameraRef.current.aspect = width / height;
+                cameraRef.current.updateProjectionMatrix();
+            }
         });
         createSphere();
 
@@ -191,9 +204,14 @@ const Orb: React.FC<OrbProps> = ({
                     }
                 }
             });
-            renderer.dispose();
-            if (orbRef.current) {
-                orbRef.current.removeChild(renderer.domElement);
+            if (rendererRef.current) {
+                rendererRef.current.dispose();
+                if (orbRef.current) {
+                    orbRef.current.removeChild(rendererRef.current.domElement);
+                }
+            }
+            if (controlsRef.current) {
+                controlsRef.current.dispose();
             }
         }
     }, [
