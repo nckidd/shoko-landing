@@ -33,33 +33,40 @@ const Orb: React.FC<OrbProps> = ({
 
     useEffect(() => {
         if (!orbRef.current) return;
-        sceneRef.current = new THREE.Scene();
-        const scene = sceneRef.current;
-        cameraRef.current = new THREE.PerspectiveCamera(
+
+        // Initialize scene
+        const scene = new THREE.Scene();
+        sceneRef.current = scene;
+
+        // Initialize camera
+        const camera = new THREE.PerspectiveCamera(
             75,
             window.innerWidth / window.innerHeight,
             0.1,
             1000
         );
-        rendererRef.current = new THREE.WebGLRenderer({
+        cameraRef.current = camera;
+
+        // Initialize renderer
+        const renderer = new THREE.WebGLRenderer({
             antialias: true,
             alpha: true,
             preserveDrawingBuffer: true,
             powerPreference: "high-performance",
         });
-
-        const renderer = rendererRef.current;
+        rendererRef.current = renderer;
+        
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setClearColor(backgroundColor);
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-        if (orbRef.current) {
-            orbRef.current.appendChild(renderer.domElement);
-        }
+        const currentOrbRef = orbRef.current;
+        currentOrbRef.appendChild(renderer.domElement);
 
-        controlsRef.current = new OrbitControls(cameraRef.current, renderer.domElement);
-        const controls = controlsRef.current;
+        // Initialize controls
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controlsRef.current = controls;
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
         controls.rotateSpeed = 1.2;
@@ -173,46 +180,68 @@ const Orb: React.FC<OrbProps> = ({
 
         cameraRef.current.position.z = 10;
 
+        let animationFrameId: number;
+
         const animate = () => {
-            requestAnimationFrame(animate);
-            if (controls && renderer && scene && cameraRef.current) {
-                controls.update();
-                renderer.render(scene, cameraRef.current);
-            }
+            if (!controlsRef.current || !rendererRef.current || !sceneRef.current || !cameraRef.current) return;
+            
+            controlsRef.current.update();
+            rendererRef.current.render(sceneRef.current, cameraRef.current);
+            animationFrameId = requestAnimationFrame(animate);
         };
 
-        window.addEventListener("resize", () => {
+        const handleResize = () => {
             const width = window.innerWidth;
             const height = window.innerHeight;
-            if (rendererRef.current && cameraRef.current) {
-                rendererRef.current.setSize(width, height);
-                cameraRef.current.aspect = width / height;
-                cameraRef.current.updateProjectionMatrix();
-            }
-        });
+            if (!rendererRef.current || !cameraRef.current) return;
+
+            rendererRef.current.setSize(width, height);
+            cameraRef.current.aspect = width / height;
+            cameraRef.current.updateProjectionMatrix();
+        };
+
+        window.addEventListener("resize", handleResize);
         createSphere();
 
         return () => {
+            // Cancel animation frame
+            cancelAnimationFrame(animationFrameId);
+            window.removeEventListener("resize", handleResize);
+
+            // Store refs in local variables to ensure they don't change during cleanup
+            const scene = sceneRef.current;
+            const renderer = rendererRef.current;
+            const controls = controlsRef.current;
+            const currentOrbRef = orbRef.current;
+
             // Cleanup Three.js resources
-            scene.traverse((object: THREE.Object3D) => {
-                if (object instanceof THREE.Mesh) {
-                    if (object.geometry) object.geometry.dispose();
-                    if (Array.isArray(object.material)) {
-                        object.material.forEach(material => material.dispose());
-                    } else if (object.material) {
-                        object.material.dispose();
+            if (scene) {
+                scene.traverse((object: THREE.Object3D) => {
+                    if (object instanceof THREE.Mesh) {
+                        if (object.geometry) object.geometry.dispose();
+                        if (Array.isArray(object.material)) {
+                            object.material.forEach(material => material.dispose());
+                        } else if (object.material) {
+                            object.material.dispose();
+                        }
                     }
-                }
-            });
-            if (rendererRef.current) {
-                rendererRef.current.dispose();
-                if (orbRef.current) {
-                    orbRef.current.removeChild(rendererRef.current.domElement);
-                }
+                });
             }
-            if (controlsRef.current) {
-                controlsRef.current.dispose();
+
+            if (renderer && currentOrbRef) {
+                renderer.dispose();
+                currentOrbRef.removeChild(renderer.domElement);
             }
+
+            if (controls) {
+                controls.dispose();
+            }
+
+            // Clear refs
+            sceneRef.current = null;
+            rendererRef.current = null;
+            cameraRef.current = null;
+            controlsRef.current = null;
         }
     }, [
         totalImages,

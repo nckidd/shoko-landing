@@ -159,12 +159,12 @@ export default function Home() {
             <p
               className=" text-left"
             >
-              Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It\'s also called placeholder (or filler) text. It\'s a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero.
+              Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It&apos;s also called placeholder (or filler) text. It&apos;s a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero.
             </p>
             <p
               className=" text-left"
             >
-              Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It\'s also called placeholder (or filler) text. It\'s a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero.
+              Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It&apos;s also called placeholder (or filler) text. It&apos;s a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero.
             </p>
           </div>
         </motion.div>
@@ -242,7 +242,7 @@ export default function Home() {
                   bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent`
                   }
                 >
-                  LET\'S CREATE
+                  LET&apos;S CREATE
               </h2>
               <h2 className=
                   {`${monsieur.className}
@@ -325,7 +325,7 @@ export default function Home() {
                     text-1xl
                     mb-0`}
                 >
-                  WHO\'s
+                  WHO&apos;s
                 </h4>
                 <h2 className=
                     {`${monsieur.className}
