@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { useRouter } from 'next/navigation';
 
 interface OrbProps {
     totalImages?: number;
@@ -30,9 +31,13 @@ const Orb: React.FC<OrbProps> = ({
     const sceneRef = useRef<THREE.Scene | null>(null);
     const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
     const controlsRef = useRef<OrbitControls | null>(null);
+    const animationFrameIdRef = useRef<number | null>(null);
+
+    // Add router
+    const router = useRouter();
 
     useEffect(() => {
-        if (!orbRef.current) return;
+        if (!orbRef.current) return; 
 
         // Initialize scene
         const scene = new THREE.Scene();
@@ -63,6 +68,20 @@ const Orb: React.FC<OrbProps> = ({
 
         const currentOrbRef = orbRef.current;
         currentOrbRef.appendChild(renderer.domElement);
+        
+        // Store handler + clean it up so doesn't persist beyond lifecycle
+        const handleClick = () => {
+            console.log("Orb Clicked");
+
+            if (rendererRef.current) {
+                rendererRef.current.domElement.style.display = "none";
+            }
+
+            router.push('/home');
+          };
+          
+        renderer.domElement.style.cursor = 'pointer';
+        renderer.domElement.addEventListener('click', handleClick);
 
         // Initialize controls
         const controls = new OrbitControls(camera, renderer.domElement);
@@ -107,7 +126,7 @@ const Orb: React.FC<OrbProps> = ({
 
         const getRandomImagePath = () => {
             const randomIndex = Math.floor(Math.random() * imageFiles.length);
-            return `/images/${imageFiles[randomIndex]}`;
+            return `/images/orb/${imageFiles[randomIndex]}`;
         };
 
         const createImagePlane = (texture: THREE.Texture) => {
@@ -158,9 +177,9 @@ const Orb: React.FC<OrbProps> = ({
                 console.error("Error loading texture:", error);
                 // Try loading a different image on error
                 const currentPath = getRandomImagePath();
-                const remainingImages = imageFiles.filter(img => `/images/${img}` !== currentPath);
+                const remainingImages = imageFiles.filter(img => `/images/orb/${img}` !== currentPath);
                 if (remainingImages.length > 0) {
-                    const fallbackPath = `/images/${remainingImages[0]}`;
+                    const fallbackPath = `/images/orb/${remainingImages[0]}`;
                     textureLoader.load(fallbackPath, handleTextureLoad, undefined, (secondError) => {
                         console.error("Fallback texture also failed:", secondError);
                     });
@@ -180,14 +199,12 @@ const Orb: React.FC<OrbProps> = ({
 
         cameraRef.current.position.z = 10;
 
-        let animationFrameId: number;
-
         const animate = () => {
             if (!controlsRef.current || !rendererRef.current || !sceneRef.current || !cameraRef.current) return;
             
             controlsRef.current.update();
             rendererRef.current.render(sceneRef.current, cameraRef.current);
-            animationFrameId = requestAnimationFrame(animate);
+            animationFrameIdRef.current = requestAnimationFrame(animate);
         };
 
         const handleResize = () => {
@@ -204,15 +221,17 @@ const Orb: React.FC<OrbProps> = ({
         createSphere();
 
         return () => {
-            // Cancel animation frame
-            cancelAnimationFrame(animationFrameId);
-            window.removeEventListener("resize", handleResize);
+            // Cancel animation frame / stop loop
+            if (animationFrameIdRef.current !== null) {
+                cancelAnimationFrame(animationFrameIdRef.current);
+            }
+            animationFrameIdRef.current = null;
 
             // Store refs in local variables to ensure they don't change during cleanup
             const scene = sceneRef.current;
             const renderer = rendererRef.current;
             const controls = controlsRef.current;
-            const currentOrbRef = orbRef.current;
+            //const currentOrbRef = orbRef.current;
 
             // Cleanup Three.js resources
             if (scene) {
@@ -227,11 +246,19 @@ const Orb: React.FC<OrbProps> = ({
                     }
                 });
             }
+            // Cleanup
+            renderer?.domElement.removeEventListener('click', handleClick);
+            window.removeEventListener("resize", handleResize);
 
-            if (renderer && currentOrbRef) {
-                renderer.dispose();
-                currentOrbRef.removeChild(renderer.domElement);
+                //Remove canvas from DOM
+            const canvas = renderer?.domElement;
+
+            if (canvas && canvas.parentNode) {
+                canvas.parentNode.removeChild(canvas);
             }
+            
+            //Dispose renderer
+            renderer?.dispose();
 
             if (controls) {
                 controls.dispose();
@@ -252,7 +279,14 @@ const Orb: React.FC<OrbProps> = ({
         backgroundColor,
     ]);
 
-    return <div ref={orbRef} className={`orb ${className}`} style={style}></div>;
+    //return <div ref={orbRef} className={`orb ${className}`} style={style}></div>;
+    return (
+        <div
+          ref={orbRef}
+          className={`orb ${className}`}
+          style={{ cursor: 'pointer', ...style }}
+        />
+      );
 };
 
 export default Orb;
