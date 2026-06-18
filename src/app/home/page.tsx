@@ -126,6 +126,17 @@ export default function Home() {
   // Add at the top of your component
   const [isMobile, setIsMobile] = useState(false);
 
+  const [showHint, setShowHint] = useState(false);
+  const hintTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handlePanelSelect = (section: Section | null) => {
+    setActivePanel(section);
+    setShowHint(true);
+    if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
+    hintTimeoutRef.current = setTimeout(() => setShowHint(false), 2500);
+  };
+
+  
 
   // ── Three.js setup ──────────────────────────────────────────────────────────
   useEffect(() => {
@@ -408,6 +419,7 @@ export default function Home() {
       resizeObserver.disconnect();
       
       if (scrollTimeout) clearTimeout(scrollTimeout);
+      if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
 
       scene.traverse((obj: THREE.Object3D) => {
         if (obj instanceof THREE.Mesh) {
@@ -457,10 +469,48 @@ export default function Home() {
               height: '100%' 
             }} 
           />
+          {/* Scroll hint */}
+          <div
+            style={{
+              position:      'absolute',
+              bottom:        '2rem',
+              left:          '50%',
+              transform:     'translateX(-50%)',
+              pointerEvents: 'none',
+              display:       'flex',
+              flexDirection: 'column',
+              alignItems:    'center',
+              gap:           '8px',
+              opacity:       showHint ? 1 : 0,
+              transition:    'opacity 0.6s ease',
+            }}
+          >
+            {/* Animated arrow */}
+            <div
+              style={{
+                width:     '1px',
+                height:    '40px',
+                background: 'linear-gradient(to bottom, transparent, #141414)',
+                animation: showHint ? 'scrollHintLine 1.2s ease infinite' : 'none',
+              }}
+            />
+            <p
+              style={{
+                fontSize:      '10px',
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                color:         '#141414',
+                fontFamily:    '"Cormorant Garamond", serif',
+                margin:        0,
+              }}
+            >
+              Scroll to explore
+            </p>
+          </div>
         </section>
 
         {/* Layer 2 — Persistent nav */}
-        <Nav activePanel={activePanel} onSelect={setActivePanel} />
+        <Nav activePanel={activePanel} onSelect={handlePanelSelect} />
 
         {/* Info panel — grows in from the right */}
         <aside
