@@ -1,6 +1,19 @@
 import type { Metadata } from "next";
-import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./globals.css";
+import { Syne, Noto_Sans } from 'next/font/google';
+
+const syne = Syne({
+  weight: '600',
+  subsets: ['latin'],
+  variable: '--font-syne',
+});
+
+const notoSans = Noto_Sans({
+  weight: '100',
+  subsets: ['latin'],
+  variable: '--font-noto-sans',
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${syne.variable} ${notoSans.variable}`}>
       <body>
           {children}
       </body>

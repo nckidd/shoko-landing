@@ -14,7 +14,8 @@ body {
   height: 100%;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-noto-sans), sans-serif;
+  font-weight: 600;
 }
 
 
@@ -85,40 +86,6 @@ button:hover::before {
     0 0 40px #ff7e5f
   ;
   
-}
-.retro-grid {
-  position: absolute;
-  bottom: 0;
-  width: 200%;
-  height: 60%;
-  left: -50%;
-
-  background-image:
-    linear-gradient(rgba(255, 0, 2550, 0.3) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,255,255,0.3) 1px, transparent 1px);
-
-  background-size: 40px 40px;
-
-  transform: perspective(600px) rotateX(60deg);
-  transform-origin: bottom;
-
-  opacity: 0.6;
-
-  box-shadow: 
-    0 0 40px rgba(255, 0, 255, 0.5),
-    0 0 80px rgba(0,255,255,0.3);
-}
-
-.retro-grid::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.8),
-    transparent 40%
-  );
 }
 
 :root {
