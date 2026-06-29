@@ -37,8 +37,13 @@ const ExperienceSec = () => {
             <div className="py-16 md:py-32">
                 <div className="container mx-auto px-4">
                     <div className="flex items-center justify-between gap-2 border-b border-black pb-7 mb-9 md:mb-16">
-                        <h2>Experience</h2>
-                        <p className="text-xl text-primary">( 02 )</p>
+                        <h2 
+                            className='text-black'
+                            style={{
+                                fontFamily:  '"Cormorant Garamond", serif',
+                            }}
+                        >Experience</h2>
+                        <p className="text-xl">( 02 )</p>
                     </div>
 
                     <div className="space-y-7 md:space-y-12">
@@ -46,19 +51,19 @@ const ExperienceSec = () => {
                             <div key={index} className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 md:gap-4 xl:gap-8 items-start relative">
                                 <div className="">
                                     <h3 className="font-bold mb-2 text-black">{exp.year}</h3>
-                                    <h4 className="text-lg font-normal">{exp.title}</h4>
+                                    <h4 className="font-normal text-black">{exp.title}</h4>
                                 </div>
 
                                 <div className=" relative">
                                     {index < experiences.length && (
-                                        <div className={`absolute left-0 top-3 w-px ${index < experiences.length - 1 ? 'h-40' : 'h-30'} bg-softGray`}></div>
+                                        <div className={`absolute left-0 top-3 w-px ${index < experiences.length - 1 ? 'h-40' : 'h-30'} bg-mistGray`}></div>
                                     )}
 
                                     <div className="no-print absolute left-0 top-0 transform -translate-x-1/2">
-                                        <div className={`no-print w-3.5 h-3.5 rounded-full border-1 bg-white flex items-center justify-center ${index === 1 ? 'border-primary' : 'border-black'
+                                        <div className={`no-print w-3.5 h-3.5 rounded-full border-1 bg-white flex items-center justify-center ${index === 1 ? 'border-tangerine' : 'border-black'
                                             }`}>
                                             {index === 1 && (
-                                                <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                                                <div className="w-1.5 h-1.5 rounded-full bg-tangerine"></div>
                                             )}
                                         </div>
                                     </div>

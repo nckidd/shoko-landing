@@ -439,9 +439,9 @@ export default function Home() {
   return (
     <>
       {/* Font import — move to layout.tsx if preferred */}
-      <style>{`
+      {/* <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap');
-      `}</style>
+      `}</style> */}
        
       <main style={{ 
         display:  'flex', 
@@ -495,14 +495,14 @@ export default function Home() {
               }}
             />
             <p
-              style={{
-                fontSize:      '10px',
-                letterSpacing: '0.25em',
-                textTransform: 'uppercase',
-                color:         '#141414',
-                fontFamily:    '"Cormorant Garamond", serif',
-                margin:        0,
-              }}
+              // style={{
+              //   fontSize:      '10px',
+              //   letterSpacing: '0.25em',
+              //   textTransform: 'uppercase',
+              //   color:         '#141414',
+              //   fontFamily:    '"Cormorant Garamond", serif',
+              //   margin:        0,
+              // }}
             >
               Scroll to explore
             </p>

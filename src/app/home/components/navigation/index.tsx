@@ -62,7 +62,6 @@ export default function Nav({ activePanel, onSelect }: NavProps) {
             letterSpacing: '0.25em',
             textTransform: 'uppercase',
             color:       '#999',
-            fontFamily:  '"Cormorant Garamond", serif',
             opacity:     mounted ? 1 : 0,
             transition:  'opacity 0.6s ease 0.1s',
           }}
@@ -108,7 +107,6 @@ export default function Nav({ activePanel, onSelect }: NavProps) {
                       fontSize:      '9px',
                       letterSpacing: '0.15em',
                       color:         isActive ? '#141414' : '#bbb',
-                      fontFamily:    '"Cormorant Garamond", serif',
                       transition:    'color 0.3s ease',
                     }}
                   >
@@ -122,7 +120,6 @@ export default function Nav({ activePanel, onSelect }: NavProps) {
                       letterSpacing: '0.2em',
                       textTransform: 'uppercase',
                       color:         isActive ? '#141414' : '#888',
-                      fontFamily:    '"Cormorant Garamond", serif',
                       writingMode:   'vertical-rl',
                       transform:     'rotate(180deg)',
                       transition:    'color 0.3s ease',
@@ -206,7 +203,6 @@ export default function Nav({ activePanel, onSelect }: NavProps) {
                   fontSize:      '9px',
                   letterSpacing: '0.15em',
                   color:         isActive ? '#141414' : '#bbb',
-                  fontFamily:    '"Cormorant Garamond", serif',
                   transition:    'color 0.3s ease',
                 }}
               >
@@ -218,7 +214,6 @@ export default function Nav({ activePanel, onSelect }: NavProps) {
                   letterSpacing: '0.18em',
                   textTransform: 'uppercase',
                   color:         isActive ? '#141414' : '#888',
-                  fontFamily:    '"Cormorant Garamond", serif',
                   transition:    'color 0.3s ease',
                 }}
               >

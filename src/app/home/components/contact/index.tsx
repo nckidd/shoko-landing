@@ -73,8 +73,8 @@ const Contact = () => {
       <div className="container">
         <div className="pt-16 md:pt-32 pb-20">
           <div className="flex items-center justify-between gap-2 border-b border-black pb-7 mb-9 md:mb-16">
-            <h2>Contact Me</h2>
-            <p className="text-xl text-orange-500">( 05 )</p>
+            <h2 className="text-black">Contact Me</h2>
+            <p className="text-xl text-tangerine">( 05 )</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <form onSubmit={handleSubmit}>
@@ -144,17 +144,17 @@ const Contact = () => {
                       width={30}
                       height={30}
                     />
-                    <p className="text-secondary">
-                      Great!!! Email has been Successfully Sent. We will get in
+                    <p className="text-black">
+                      Great! Email has been successfully sent. I will get in
                       touch asap.
                     </p>
                   </div>
                 )}
                 <button
                   type="submit"
-                  className="relative overflow-hidden cursor-pointer w-fit py-2 sm:py-3 md:py-5 px-4 sm:px-5 md:px-7 border border-primary rounded-full group"
+                  className="relative overflow-hidden cursor-pointer w-fit py-2 sm:py-3 md:py-5 px-4 sm:px-5 md:px-7 border border-tangerine rounded-full group"
                 >
-                  <span className="relative z-10 text-xl font-medium text-primary group-hover:text-white transition-colors duration-300">
+                  <span className="relative z-10 text-xl font-medium text-black group-hover:text-white transition-colors duration-300">
                     Send Now
                   </span>
                 </button>
@@ -166,7 +166,7 @@ const Contact = () => {
                   return (
                     <div key={index}>
                       <Link
-                        className="text-base sm:text-lg font-normal text-secondary hover:text-primary"
+                        className="text-base sm:text-lg font-normal text-black hover:text-tangerine"
                         onClick={(e) => e.preventDefault()}
                         href={"#!"}
                       >
@@ -183,7 +183,7 @@ const Contact = () => {
                       <Link
                         onClick={(e) => e.preventDefault()}
                         href={"#!"}
-                        className="text-base lg:text-lg text-black font-normal border-b border-black pb-3 hover:text-primary hover:border-primary"
+                        className="text-base lg:text-lg text-black font-normal border-b border-black pb-3 hover:text-tangerine hover:border-primary"
                       >
                         {value?.label}
                       </Link>

@@ -10,7 +10,7 @@ const syne = Syne({
 });
 
 const notoSans = Noto_Sans({
-  weight: '100',
+  weight: '200',
   subsets: ['latin'],
   variable: '--font-noto-sans',
 });
